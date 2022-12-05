@@ -10,8 +10,7 @@ def combineToGLXpath(baseDir, sesName, g , imec, ksdir)->str:
     dirg = os.path.join(baseDir, sesName + '_g' + g, sesName + '_g' + g + '_imec' + imec, ksdir)
     return dirg
 
-
-def getGoodUnits(baseDir, sesName, g , imec, ksdir, postphy=True):
+def getGoodUnits(baseDir, sesName, g='0' , imec='0', ksdir='3', postphy=True):
     sdir = combineToGLXpath(baseDir, sesName, g, imec, ksdir)
     if postphy:
         file = os.path.join(sdir, 'cluster_group.tsv')
