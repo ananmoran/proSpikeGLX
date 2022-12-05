@@ -10,13 +10,19 @@ def combineToGLXpath(baseDir, sesName, g , imec, ksdir)->str:
     dirg = os.path.join(baseDir, sesName + '_g' + g, sesName + '_g' + g + '_imec' + imec, ksdir)
     return dirg
 
-def countGoodUnits(baseDir, sesName, g , imec, ksdir, postphy=True):
-    sdir = combineToGLXpath(baseDir, sesName, g , imec, ksdir)
+
+def getGoodUnits(baseDir, sesName, g , imec, ksdir, postphy=True):
+    sdir = combineToGLXpath(baseDir, sesName, g, imec, ksdir)
     if postphy:
         file = os.path.join(sdir, 'cluster_group.tsv')
         df_clusgroup = pd.read_csv(file, sep='\t', header=0)
-        df1 = df_clusgroup[df_clusgroup['group']=='good'].count()
-        return df1[0]
+
+        df1 = df_clusgroup[df_clusgroup['group'] == 'good']
+        return [df1, df1.count()[0]]
+
+def countGoodUnits(baseDir, sesName, g , imec, ksdir, postphy=True):
+    [_,count] = getGoodUnits(baseDir, sesName, g, imec, ksdir, postphy)
+    return count
 
 
 def convertSapToSecs(baseDir, sesName, g , imec, ksdir):
