@@ -16,12 +16,16 @@ def getGoodUnits(baseDir, sesName, g='0' , imec='0', ksdir='3', postphy=True):
         file = os.path.join(sdir, 'cluster_group.tsv')
         df_clusgroup = pd.read_csv(file, sep='\t', header=0)
 
-        df1 = df_clusgroup[df_clusgroup['group'] == 'good']
-        return [df1, df1.count()[0]]
+        df1 = df_clusgroup[df_clusgroup['group'] == 'good']['cluster_id'].tolist()
+        return df1
 
-def countGoodUnits(baseDir, sesName, g , imec, ksdir, postphy=True):
-    [_,count] = getGoodUnits(baseDir, sesName, g, imec, ksdir, postphy)
-    return count
+def getGoodUnitsData(baseDir, sesName, g='0' , imec='0', ksdir='3', g_unitss=None):
+    sdir = combineToGLXpath(baseDir, sesName, g, imec, ksdir)
+    df_clusinfo = pd.read_csv(sdir + r'\cluster_info.tsv', sep='\t', header=0)
+    if (gu==None):
+        return df_clusinfo
+    else:
+        return df_clusinfo[df_clusinfo['cluster_id'].isin(g_unitss)]
 
 
 def convertSapToSecs(baseDir, sesName, g , imec, ksdir):
